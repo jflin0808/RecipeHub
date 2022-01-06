@@ -2,16 +2,56 @@
 
 {% block content %}
 
-<h1>Home Page</h1>
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
 
+</style>
 
-<div>
+<div class='home-container'>
     <div>
-        {% for recipe in recipes %}
+        <h3>Browse Recipes</h3>
+        <hr>
+
+        <div>
+            <a href='{% url "home" %}'>All</a>
+        </div>
+
+        {% for diet in diets %}
             <div>
-                <h5>{{recipe.id}} -- <a href='{% url "recipe" recipe.id %}'>{{recipe.name}}</a></h5>
+                <a href='{% url "home" %}?q={{diet.name}}'>{{diet.name}}</a>
             </div>
+
         {% endfor %}
     </div>
+
+    <div>
+        <h3>{{recipe_count}} recipes</h3>
+        <a href='{% url "create-recipe" %}'>Create Recipe</a>
+    
+        <div>
+            {% for recipe in recipes %}
+                <div>
+                    <h3>{{recipe.id}} -- <a href='{% url "recipe" recipe.id %}'>{{recipe.name}}</a></h3>
+                    <div>
+                        <span>{{recipe.tag}} {{recipe.meal}}</span>
+                        <p><small>{{recipe.description}}</small></p>
+
+                        {% if request.user == recipe.user %}
+                        <p><a href='{% url "update-recipe" recipe.id %}'>Update Recipe</a></p>
+                        <a href='{% url "delete-recipe" recipe.id %}'>Delete Recipe</a>
+                        {% endif %}
+                        
+                    </div>
+                    
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
 </div>
 {% endblock content %}
