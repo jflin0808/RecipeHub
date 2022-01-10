@@ -1,34 +1,37 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 
 {% block content %}
 
 <style>
-    .home-container{
+    .profile-container{
         display: grid;
         grid-template-columns: 1fr 3fr;
     }
+
 </style>
 
-<div class='home-container'>
+
+<h1> {{ user.username }}</h1>
+
+<div class='profile-container'>
     <div>
-        <h3>Browse Recipes</h3>
-        <hr>
-
         <div>
-            <a href='{% url "home" %}'>All</a>
-        </div>
-
-        {% for diet in diets %}
+            <h3>Browse Recipes</h3>
+            <hr>
+    
             <div>
-                <a href='{% url "home" %}?q={{diet.name}}'>{{diet.name}}</a>
+                <a href='{% url "home" %}'>All</a>
             </div>
-        {% endfor %}
+    
+            {% for diet in diets %}
+                <div>
+                    <a href='{% url "home" %}?q={{diet.name}}'>{{diet.name}}</a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div>
-        <h3>{{recipe_count}} recipes</h3>
-    
         <div>
             {% for recipe in recipes %}
                 <div>
@@ -49,9 +52,8 @@
                 </div>
             {% endfor %}
         </div>
-        <a href='{% url "create-recipe" %}'>Create Recipe</a>
     </div>
-
-    
 </div>
+
+
 {% endblock content %}

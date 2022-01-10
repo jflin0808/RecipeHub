@@ -58,6 +58,14 @@ def registerUser(request):
     return render(request, 'base/account.html', context)
 
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    recipes = user.recipe_set.all()
+    diets = Diet.objects.all()
+    context = {'user': user, 'recipes':recipes, 'diets':diets,}
+    return render(request, 'base/profile.html', context)
+
+
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') !=None else ''
 
@@ -86,7 +94,9 @@ def createRecipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST)
         if form.is_valid():
-            form.save()
+            recipe = form.save(commit=False)
+            recipe.user = request.user
+            recipe.save()
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/recipe_form.html', context)

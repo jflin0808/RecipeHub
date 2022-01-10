@@ -4,4 +4,50 @@
 
 <h1>{{recipe.name}}</h1>
 
+<div>
+    <a href='{% url "user-profile" recipe.user.id %}'>Created by: {{ recipe.user.username }}</a>
+    <div>
+        <p><span>{{recipe.tag}} {{recipe.meal}} for people on the {{recipe.diet}} diet!</span></p>
+        <p><small>{{recipe.description}}</small></p>
+    </div>
+
+    
+    {% if request.user == recipe.user %}
+    <p><a href='{% url "update-recipe" recipe.id %}'>Update Recipe</a></p>
+    <a href='{% url "delete-recipe" recipe.id %}'>Delete Recipe</a>
+    {% endif %}
+</div>
+<hr>
+
+<body>
+    <div>
+        <img src=''/>
+    </div>
+
+    <div class='basic-info'>
+        <p>Prep: {{recipe.prep_time}}</p>
+        <p>Cook: {{recipe.cook_time}}</p>
+        <p>Servings: {{recipe.servings}}</p>
+    </div>
+    <hr>
+
+    <div class='ingredients'>
+        <h3>Ingredients</h3>
+        <ul>{{recipe.ingredients}}</ul>
+    </div>
+    <hr>
+
+    <div class='preparations'>
+        <h3>Preparation</h3>
+        <ul>{{recipe.preparation}}</ul>
+    </div>
+    <hr>
+
+    <div class='instructions'>
+        <h3>Instructions</h3>
+        <ul>{{recipe.instructions}}</ul>
+    </div>
+
+</body>
+
 {% endblock content %}
